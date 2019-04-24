@@ -18,6 +18,7 @@ jobs:
       addons:
         mariadb: '10.2'
       install: skip
+      name: allocations
       before_script:
         - mysql -uroot < databases/create_databases.sql
         - ./gradlew testMigrate
@@ -41,6 +42,7 @@ jobs:
       addons:
         mariadb: '10.2'
       install: skip
+      name: backlog
       before_script:
         - mysql -uroot < databases/create_databases.sql
         - ./gradlew testMigrate
@@ -60,6 +62,7 @@ jobs:
       addons:
         mariadb: '10.2'
       install: skip
+      name: registration
       before_script:
         - mysql -uroot < databases/create_databases.sql
         - ./gradlew testMigrate
@@ -79,6 +82,7 @@ jobs:
       addons:
         mariadb: '10.2'
       install: skip
+      name: timesheets
       before_script:
         - mysql -uroot < databases/create_databases.sql
         - ./gradlew testMigrate
@@ -94,6 +98,7 @@ jobs:
 
     - stage: deploy
       language: bash
+      name: allocations
       script:
         - echo "Downloading allocations server $RELEASE_TAG"
         - wget -P applications/allocations-server/build/libs https://github.com/$GITHUB_USERNAME/pal-tracker-distributed/releases/download/$RELEASE_TAG/allocations-server.jar
@@ -109,6 +114,7 @@ jobs:
         space: $CF_SPACE
     - stage: deploy
       language: bash
+      name: backlog
       script:
         - echo "Downloading backlog server $RELEASE_TAG"
         - wget -P applications/backlog-server/build/libs https://github.com/$GITHUB_USERNAME/pal-tracker-distributed/releases/download/$RELEASE_TAG/backlog-server.jar
@@ -119,6 +125,7 @@ jobs:
         <<: *cloudfoundry
     - stage: deploy
       language: bash
+      name: registration
       script:
         - echo "Downloading registration server $RELEASE_TAG"
         - wget -P applications/registration-server/build/libs https://github.com/$GITHUB_USERNAME/pal-tracker-distributed/releases/download/$RELEASE_TAG/registration-server.jar
@@ -129,6 +136,7 @@ jobs:
         <<: *cloudfoundry
     - stage: deploy
       language: bash
+      name: timesheets
       script:
         - echo "Downloading timesheets server $RELEASE_TAG"
         - wget -P applications/timesheets-server/build/libs https://github.com/$GITHUB_USERNAME/pal-tracker-distributed/releases/download/$RELEASE_TAG/timesheets-server.jar
